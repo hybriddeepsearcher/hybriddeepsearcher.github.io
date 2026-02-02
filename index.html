@@ -518,7 +518,7 @@
                         <h3>Sequential Search</h3>
                         <span class="badge seq">Sequential</span>
                     </div>
-                    <video controls playsinline preload="metadata">
+                    <video class="freeze-last" controls playsinline preload="metadata">
                         <source src="videos/sequential.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -532,7 +532,7 @@
                         <h3>Parallel Search</h3>
                         <span class="badge par">Parallel</span>
                     </div>
-                    <video controls playsinline preload="metadata">
+                    <video class="freeze-last" controls playsinline preload="metadata">
                         <source src="videos/parallel.mp4" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -875,6 +875,17 @@
             }, 2000);
         });
     }
+    function freezeAtLastFrame(video) {
+        video.addEventListener('loadedmetadata', () => {
+            const t = Math.max(0, video.duration - 0.05); 
+            try { video.currentTime = t; } catch (e) {}
+        });
+        video.addEventListener('seeked', () => {
+            video.pause();
+        });
+    }
+
+    document.querySelectorAll('video.freeze-last').forEach(freezeAtLastFrame);
 </script>
 </body>
 </html>
